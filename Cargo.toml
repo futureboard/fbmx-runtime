@@ -1,16 +1,21 @@
 [package]
 name = "fbmx-runtime"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
 description = "Pure Rust loader and realtime inference runtime for .fbmx neural audio models"
+repository = "https://github.com/futureboard/fbmx-runtime"
+
+# This crate is consumed as a Git dependency (Futureboard, solfege-engine), so
+# it must stand on its own: no `workspace = true` inheritance, which only
+# resolves inside the workspace that used to host it.
 
 # serde_json parses the header, at load time only. Nothing in the realtime path
 # touches it. SHA-256 is implemented in-crate rather than pulled in, so the
 # whole dependency surface of an audio plugin that ships this is two crates.
 [dependencies]
-serde = { workspace = true }
-serde_json = { workspace = true }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
 
 [[bin]]
 name = "fbmx-bench"
@@ -21,4 +26,4 @@ name = "fbmx-performer-probe"
 path = "src/bin/performer_probe.rs"
 
 [dev-dependencies]
-serde_json = { workspace = true }
+serde_json = "1"
